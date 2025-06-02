@@ -5,7 +5,7 @@
 >
   <!-- 主站页面 -->
   <url>
-    <loc>https://1minechange.com/</loc>
+    <loc>https://1minexchange.com/</loc>
     <lastmod>2025-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -16,7 +16,7 @@
 
   <!-- 英文 SEO 页面 -->
   <url>
-    <loc>https://1minechange.com/en/</loc>
+    <loc>https://1minexchange.com/en/</loc>
     <lastmod>2025-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -24,7 +24,7 @@
 
   <!-- 法语 SEO 页面 -->
   <url>
-    <loc>https://1minechange.com/fr/</loc>
+    <loc>https://1minexchange.com/fr/</loc>
     <lastmod>2025-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
