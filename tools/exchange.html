@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Currency Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 1em;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .rate {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Currency Conversion Tool</h2>
+  <div class="rate">Current Exchange Rate: <span id="rate">Loading...</span></div>
+
+  <label for="xaf">Enter XAF amount (convert to CNY)</label>
+  <input type="number" id="xaf" placeholder="Amount in XAF" />
+
+  <label for="cny">Enter CNY amount (to receive in CNY, calculate required XAF)</label>
+  <input type="number" id="cny" placeholder="Amount in CNY" />
+
+  <script>
+    let currentRate = null;
+
+    async function fetchRate() {
+      try {
+        const res = await fetch("https://fetch-rate-calculation.onrender.com/api/exchange-rate");
+        const data = await res.json();
+        currentRate = data.rate;
+        document.getElementById("rate").textContent = currentRate;
+      } catch (error) {
+        document.getElementById("rate").textContent = "Failed to load";
+        console.error("Failed to fetch exchange rate:", error);
+      }
+    }
+
+    async function calculate(type, amount) {
+      try {
+        const res = await fetch("https://fetch-rate-calculation.onrender.com/api/calculate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type, amount, rate: currentRate })
+        });
+        const data = await res.json();
+        return data.result;
+      } catch (error) {
+        console.error("Calculation error:", error);
+        return "";
+      }
+    }
+
+    document.getElementById("xaf").addEventListener("input", async (e) => {
+      const val = parseFloat(e.target.value);
+      if (!isNaN(val)) {
+        const result = await calculate("XAF", val);
+        document.getElementById("cny").value = result;
+      }
+    });
+
+    document.getElementById("cny").addEventListener("input", async (e) => {
+      const val = parseFloat(e.target.value);
+      if (!isNaN(val)) {
+        const result = await calculate("CNY", val);
+        document.getElementById("xaf").value = result;
+      }
+    });
+
+    fetchRate();
+  </script>
+</body>
+</html>
